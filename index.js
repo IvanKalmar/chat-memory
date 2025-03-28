@@ -14,16 +14,13 @@ jQuery(async () => {
 
   const settingsHtml = await $.get(`${extensionFolderPath}/example.html`);
 
-  console.log(context.characters);
-
-  const charactersList = context.characters.map((character) => {
-    console.log(character);
-    return $("option").text(1);
-  })
+  for(const c in context.characters) {
+    $("#chat_memory_available_chats").append(
+        $("option").text(c.name)
+    );
+  }
 
   $("#extensions_settings").append(settingsHtml);
-
-  $("#chat_memory_available_chats").append()
 
   $("#chat_memory_save_settings_button").on("click", () => {
     toastr.info(``, "Saved!");
