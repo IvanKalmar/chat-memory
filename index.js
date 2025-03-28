@@ -77,11 +77,12 @@ jQuery(async () => {
 
 
   const memoryHtml = await $.get(`${extensionFolderPath}/views/memory.html`);
-  $("#movingDivs").append(settingsHtml);
+  $("#movingDivs").append(memoryHtml);
 
   const openMemoryButton = $(`<div id="openMemory" class="drawer-icon fa-solid fa-book fa-fw interactable openIcon" 
 style="position: absolute; top: 3px; left: 3px;"></div>`);
   openMemoryButton.on("click", () => {
+    openMemoryButton.hide();
     memoryHtml.show();
   })
 
