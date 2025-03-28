@@ -1,5 +1,5 @@
 <div id="chat-memory-panel" class="flexGap5"
-     style="position: absolute; top: 0; left: 0; padding-top: 3%; width: calc(((100vw - var(--sheldWidth)) / 2) - 1px); max-height: 100vh; z-index: 9999999; overflow-y: auto; border-radius: 10px; border: 1px solid var(--SmartThemeBorderColor); box-shadow: 0 0 10px var(--black70a);">
+     style="position: absolute; top: 0; left: 0; padding-top: 1%; width: calc(((100vw - var(--sheldWidth)) / 2) - 1px); max-height: 100vh; z-index: 9999999; overflow-y: auto; border-radius: 10px; border: 1px solid var(--SmartThemeBorderColor); box-shadow: 0 0 10px var(--black70a);">
     <div class="panelControlBar flex-container alignItemsBaseline">;
         <div id="floatingPromptheader" class="fa-fw fa-solid fa-grip drag-grabber"></div>
         <div id="chat-memory-panel-close" class="fa-fw fa-solid fa-circle-xmark floating_panel_close"></div>
@@ -8,12 +8,22 @@
     <div class="scrollY" style="margin-top: 1%; margin-bottom: 1%; padding-left: 1%; padding-right: 1%;">
         <div class="flex-container" style="width: 98%">
             <input id="chat-memory-enable" type="checkbox" />
-            <label for="chat-memory-enable">Enable/label>
+            <label for="chat-memory-enable">Enable</label>
         </div>
 
         <div style="width: 98%">
             <b>Current context</b>
-            <textarea id="extension_floating_prompt" class="text_pole textarea_compact" rows="8" disabled></textarea>
+            <textarea id="chat-memory-current-context" class="text_pole textarea_compact" rows="8"></textarea>
+        </div>
+
+        <div style="width: 98%">
+            <b>Message received</b>
+            <textarea id="chat-memory-message-received" class="text_pole textarea_compact" rows="8"></textarea>
+        </div>
+
+        <div style="width: 98%">
+            <b>Message sended</b>
+            <textarea id="chat-memory-message-sended" class="text_pole textarea_compact" rows="8"></textarea>
         </div>
     </div>
 </div>
