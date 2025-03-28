@@ -32,6 +32,10 @@ jQuery(async () => {
     chatMemoryPanel.fadeOut();
   })
 
+  eventSource.on(event_types.CHAT_CHANGED, (messageIndex) => {
+    print(context);
+  });
+
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
     const message = context.chat[messageIndex].mes;
   });
