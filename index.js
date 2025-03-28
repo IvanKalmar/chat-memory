@@ -6,125 +6,38 @@ import { saveSettingsDebounced, eventSource, event_types } from "../../../../scr
 const extensionName = "chat-memory";
 const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
 const extensionSettings = extension_settings[extensionName];
-const defaultSettings = {
-  selectedChats: []
-};
+const defaultSettings = {};
 
 
 jQuery(async () => {
-  $("#extensions_settings").append(
-      await $.get(`${extensionFolderPath}/views/settings.html`)
-  );
-
-  const enabledChats = $("#chat_memory_enabled_chats");
-  const availableChats = $("#chat_memory_available_chats");
-  const addChatButton = $("#chat_memory_add_chat_button");
-  const removeChatButton = $("#chat_memory_remove_chat_button");
-  const saveButton = $("#chat_memory_save_settings_button");
-
-  const updateChats = () => {
-    enabledChats.empty();
-
-    for(const chat of extension_settings[extensionName].selectedChats) {
-      enabledChats.append(`<pre>${chat}</pre>`)
-    }
-
-    if(extension_settings[extensionName].selectedChats.length === 0) {
-      enabledChats.append("<pre>Empty</pre>")
-    }
-  }
-
-  extension_settings[extensionName] = extension_settings[extensionName] || {};
-  if (Object.keys(extension_settings[extensionName]).length === 0) {
-    Object.assign(extension_settings[extensionName], defaultSettings);
-  }
-
-  updateChats();
-
   const context = SillyTavern.getContext();
 
-  eventSource.on(event_types.CHARACTER_PAGE_LOADED, () => {
-    availableChats.empty();
-
-    for(const c of Array.from(context.characters)) {
-      availableChats.append(new Option(c.name, c.name));
-    }
-  })
-
-
-  addChatButton.on("click", () => {
-    const selectedChats = new Set(extensionSettings.selectedChats);
-    selectedChats.add(availableChats.val());
-    extensionSettings.selectedChats = Array.from(selectedChats);
-
-    updateChats();
-  });
-
-  removeChatButton.on("click", () => {
-    const selectedChats = new Set(extensionSettings.selectedChats);
-    selectedChats.delete(availableChats.val());
-    extensionSettings.selectedChats = Array.from(selectedChats);
-
-    updateChats();
-  });
-
-  saveButton.on("click", () => {
-    saveSettingsDebounced();
-    toastr.info(``, "Saved!");
-  });
-
+  const openMemoryButton = $(`<a id="option_close_chat" class="displayNone interactable" tabindex="0">
+<i class="fa-lg fa-solid fa-book"></i>
+<span data-i18n="Close chat">Chat memory</span></a>`);
+  $("div.options-content").prepend(openMemoryButton);
 
   $("#movingDivs").append(
-      await $.get(`${extensionFolderPath}/views/memory.html`)
+      await $.get(`${extensionFolderPath}/panel.html`)
   );
 
   const chatMemoryPanel = $("#chat-memory");
   const chatMemoryClose = $("#chat-memory-close");
 
-  const openMemoryButton = $(`<div id="openMemory" class="drawer-icon fa-solid fa-book fa-fw interactable openIcon" 
-style="position: absolute; top: 3px; left: 3px;"></div>`);
   openMemoryButton.on("click", () => {
-    openMemoryButton.hide();
-    chatMemoryPanel.show();
-  })
+    chatMemoryPanel.fadeToggle();
+  });
 
-  $("body").prepend(openMemoryButton);
-
-  $("#chatMemoryClose").on("click", () => {
-    openMemoryButton.show();
-    chatMemoryPanel.hide();
+  chatMemoryClose.on("click", () => {
+    chatMemoryPanel.fadeOut();
   });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
-    let userFind = false;
-    const selectedChats = new Set(extensionSettings.selectedChats);
-    for(const user of new Set(context.chat.map(msg => msg.name))) {
-      if(selectedChats.has(user)) {
-        userFind = true;
-        break;
-      }
-    }
-
-    if(!userFind) {
-      return;
-    }
 
     const message = context.chat[messageIndex].mes;
   });
 
   eventSource.on(event_types.MESSAGE_SENT, (messageIndex) => {
-    let userFind = false;
-    const selectedChats = new Set(extensionSettings.selectedChats);
-    for(const user of new Set(context.chat.map(msg => msg.name))) {
-      if(selectedChats.has(user)) {
-        userFind = true;
-        break;
-      }
-    }
-
-    if(!userFind) {
-      return;
-    }
     const message = context.chat[messageIndex].mes;
     context.chat[messageIndex].mes = context.chat[messageIndex].mes + "123123123123"
   });
