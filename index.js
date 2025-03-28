@@ -14,6 +14,8 @@ jQuery(async () => {
 
   const settingsHtml = await $.get(`${extensionFolderPath}/example.html`);
 
+  console.log(context.characters);
+
   const charactersList = context.characters.map((character) => {
     console.log(character);
     return $("option").text(1);
