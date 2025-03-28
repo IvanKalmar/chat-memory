@@ -75,6 +75,18 @@ jQuery(async () => {
     toastr.info(``, "Saved!");
   });
 
+
+  const memoryHtml = await $.get(`${extensionFolderPath}/views/memory.html`);
+  $("#movingDivs").append(settingsHtml);
+
+  const openMemoryButton = $(`<div id="openMemory" class="drawer-icon fa-solid fa-book fa-fw interactable openIcon" 
+style="position: absolute; top: 3px; left: 3px;"></div>`);
+  openMemoryButton.on("click", () => {
+    memoryHtml.show();
+  })
+
+  $("body").prepend(openMemoryButton);
+
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
     let userFind = false;
     const selectedChats = new Set(extensionSettings.selectedChats);
