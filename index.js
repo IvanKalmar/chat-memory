@@ -25,6 +25,10 @@ jQuery(async () => {
     for(const chat of extension_settings[extensionName].selectedChats) {
       enabledChats.append(`<p>${chat}</p>`)
     }
+
+    if(extension_settings[extensionName].selectedChats.length === 0) {
+      enabledChats.append(`<p>Empty</p>`)
+    }
   }
 
   extension_settings[extensionName] = extension_settings[extensionName] || {};
@@ -39,7 +43,7 @@ jQuery(async () => {
   eventSource.on(event_types.CHARACTER_PAGE_LOADED, () => {
     availableChats.empty();
 
-    for(const c of context.characters) {
+    for(const c of Array.from(context.characters)) {
       availableChats.append(new Option(c.name, c.name));
     }
   })
