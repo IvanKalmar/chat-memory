@@ -12,8 +12,9 @@ const defaultSettings = {
 
 
 jQuery(async () => {
-  const settingsHtml = await $.get(`${extensionFolderPath}/views/settings.html`);
-  $("#extensions_settings").append(settingsHtml);
+  $("#extensions_settings").append(
+      await $.get(`${extensionFolderPath}/views/settings.html`)
+  );
 
   const enabledChats = $("#chat_memory_enabled_chats");
   const availableChats = $("#chat_memory_available_chats");
@@ -22,8 +23,6 @@ jQuery(async () => {
   const saveButton = $("#chat_memory_save_settings_button");
 
   const updateChats = () => {
-    console.log(extension_settings[extensionName].selectedChats);
-
     enabledChats.empty();
 
     for(const chat of extension_settings[extensionName].selectedChats) {
@@ -43,7 +42,6 @@ jQuery(async () => {
   updateChats();
 
   const context = SillyTavern.getContext();
-  console.log(context);
 
   eventSource.on(event_types.CHARACTER_PAGE_LOADED, () => {
     availableChats.empty();
@@ -76,17 +74,26 @@ jQuery(async () => {
   });
 
 
-  const memoryHtml = await $.get(`${extensionFolderPath}/views/memory.html`);
-  $("#movingDivs").append(memoryHtml);
+  $("#movingDivs").append(
+      await $.get(`${extensionFolderPath}/views/memory.html`)
+  );
+
+  const chatMemoryPanel = $("#chat-memory");
+  const chatMemoryClose = $("#chat-memory-close");
 
   const openMemoryButton = $(`<div id="openMemory" class="drawer-icon fa-solid fa-book fa-fw interactable openIcon" 
 style="position: absolute; top: 3px; left: 3px;"></div>`);
   openMemoryButton.on("click", () => {
     openMemoryButton.hide();
-    memoryHtml.show();
+    chatMemoryPanel.show();
   })
 
   $("body").prepend(openMemoryButton);
+
+  $("#chatMemoryClose").on("click", () => {
+    openMemoryButton.show();
+    chatMemoryPanel.hide();
+  });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
     let userFind = false;
