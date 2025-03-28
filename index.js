@@ -1,6 +1,6 @@
 import { extension_settings, getContext, loadExtensionSettings } from "../../../extensions.js";
 
-import { saveSettingsDebounced } from "../../../../script.js";
+import { saveSettingsDebounced, eventSource, event_types } from "../../../../script.js";
 
 
 const extensionName = "chat-memory";
@@ -18,6 +18,15 @@ jQuery(async () => {
   $("#example_setting").on("input", onExampleInput);
 
   await loadSettings();
+
+
+  eventSource.on(event_types.MESSAGE_RECEIVED, (message) => {
+      alert(message);
+  });
+
+  eventSource.on(event_types.MESSAGE_SENT, (message) => {
+    alert(message);
+  });
 });
 
 
@@ -30,9 +39,6 @@ async function loadSettings() {
   $("#example_setting").prop("checked", extension_settings[extensionName].example_setting).trigger("input");
 }
 
-/*
-
-
 function onExampleInput(event) {
   const value = Boolean($(event.target).prop("checked"));
   extension_settings[extensionName].example_setting = value;
@@ -40,29 +46,8 @@ function onExampleInput(event) {
 }
 
 function onButtonClick() {
-  // You can do whatever you want here
-  // Let's make a popup appear with the checked setting
   toastr.info(
     `The checkbox is ${extension_settings[extensionName].example_setting ? "checked" : "not checked"}`,
     "A popup appeared because you clicked the button!"
   );
 }
-
-// This function is called when the extension is loaded
-jQuery(async () => {
-  // This is an example of loading HTML from a file
-  const settingsHtml = await $.get(`${extensionFolderPath}/example.html`);
-
-  // Append settingsHtml to extensions_settings
-  // extension_settings and extensions_settings2 are the left and right columns of the settings menu
-  // Left should be extensions that deal with system functions and right should be visual/UI related 
-  $("#extensions_settings").append(settingsHtml);
-
-  // These are examples of listening for events
-  $("#my_button").on("click", onButtonClick);
-  $("#example_setting").on("input", onExampleInput);
-
-  // Load settings when starting things up (if you have any)
-  loadSettings();
-});
-*/
