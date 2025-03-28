@@ -75,14 +75,37 @@ jQuery(async () => {
   });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
+    let userFind = false;
+    const selectedChats = new Set(extensionSettings.selectedChats);
+    for(const user of new Set(context.chat.map(msg => msg.name))) {
+      if(user in selectedChats) {
+        userFind = true;
+        break;
+      }
+    }
+
+    if(!userFind) {
+      return;
+    }
+
     const message = context.chat[messageIndex].mes;
-    console.log(context);
     console.log(message);
   });
 
   eventSource.on(event_types.MESSAGE_SENT, (messageIndex) => {
+    let userFind = false;
+    const selectedChats = new Set(extensionSettings.selectedChats);
+    for(const user of new Set(context.chat.map(msg => msg.name))) {
+      if(user in selectedChats) {
+        userFind = true;
+        break;
+      }
+    }
+
+    if(!userFind) {
+      return;
+    }
     const message = context.chat[messageIndex].mes;
-    console.log(context);
     console.log(message);
   });
 });
