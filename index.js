@@ -23,14 +23,14 @@ jQuery(async () => {
     const openMemoryButton = $(`<a id="option_close_chat" class="displayNone interactable" tabindex="0">
 <i class="fa-lg fa-solid fa-book"></i><span data-i18n="Close chat">Chat memory</span></a>`);
 
-    $("div.options-content").prepend(openMemoryButton);
+    $("#options .options-content").prepend(openMemoryButton);
 
     openMemoryButton.on("click", () => {
-      chatMemoryPanel.fadeToggle();
+      chatMemoryPanel.css('opacity', '1');
     });
 
     chatMemoryClose.on("click", () => {
-      chatMemoryPanel.fadeOut();
+      chatMemoryPanel..css('opacity', '0');
     });
 
   });
