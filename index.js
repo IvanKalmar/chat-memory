@@ -35,8 +35,7 @@ jQuery(async () => {
   const context = SillyTavern.getContext();
 
   eventSource.on(event_types.CHAT_CHANGED, (messageIndex) => {
-    console.log("!!!", context.chatId);
-    console.log("!!!", context);
+    console.log("!!!", context.getCurrentChatId());
   });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
