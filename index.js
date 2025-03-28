@@ -58,7 +58,7 @@ jQuery(async () => {
   });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
-    const comments = [...context.chat[messageIndex].mes.matchAll(/<!--(.*?)-->)/g].map((comment) => {
+    const comments = [...context.chat[messageIndex].mes.matchAll(/<!--(.*?)-->/g].map((comment) => {
       return comment.slice(3, comment.length - 1 - 3).split("\n")
     });
 
@@ -71,7 +71,9 @@ jQuery(async () => {
 
     const contextComment = "<!--\n" + Object.keys(currentContext).map((key) => {
       return `${key}: ${currentContext[key].toString()}`;
-    }).join("\n") + "\n-->";
+    }).join("\n") + "\n-->\n";
+
+    console.log("!!!", currentContext);
 
     context.chat[messageIndex].mes = contextComment + context.chat[messageIndex].mes;
   });
