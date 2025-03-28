@@ -6,7 +6,9 @@ import { saveSettingsDebounced, eventSource, event_types } from "../../../../scr
 const extensionName = "chat-memory";
 const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
 const extensionSettings = extension_settings[extensionName];
-const defaultSettings = {};
+const defaultSettings = {
+  selectedChats: []
+};
 
 
 jQuery(async () => {
@@ -14,21 +16,27 @@ jQuery(async () => {
 
   const settingsHtml = await $.get(`${extensionFolderPath}/example.html`);
 
+  const availableChats = $("#chat_memory_available_chats");
+  const saveButton = $("#chat_memory_save_settings_button");
+
   for(const c in context.characters) {
-    $("#chat_memory_available_chats").append(
-        $("option").text(c.name)
-    );
+    availableChats.append(`<option value="${c.name}">${c.name}</option>`);
   }
 
-  $("#extensions_settings").append(settingsHtml);
-
-  $("#chat_memory_save_settings_button").on("click", () => {
-    toastr.info(``, "Saved!");
-
+  saveButton.on("click", () => {
+    extensionSettings.selectedChats = availableChats.val();
     saveSettingsDebounced();
+    toastr.info(``, "Saved!");
   });
 
-  await loadSettings();
+  extension_settings[extensionName] = extension_settings[extensionName] || {};
+  if (Object.keys(extension_settings[extensionName]).length === 0) {
+    Object.assign(extension_settings[extensionName], defaultSettings);
+  }
+
+  availableChats.val(extension_settings[extensionName].selectedChats);
+
+  $("#extensions_settings").append(settingsHtml);
 
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
@@ -40,19 +48,3 @@ jQuery(async () => {
     console.log(data);
   });
 });
-
-
-async function loadSettings() {
-  extension_settings[extensionName] = extension_settings[extensionName] || {};
-  if (Object.keys(extension_settings[extensionName]).length === 0) {
-    Object.assign(extension_settings[extensionName], defaultSettings);
-  }
-
-  $("#example_setting").prop("checked", extension_settings[extensionName].example_setting).trigger("input");
-}
-
-function onExampleInput(event) {
-  const value = Boolean($(event.target).prop("checked"));
-  extension_settings[extensionName].example_setting = value;
-
-}
