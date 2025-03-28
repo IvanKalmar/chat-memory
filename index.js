@@ -12,18 +12,11 @@ const defaultSettings = {
 
 
 jQuery(async () => {
-  const context = SillyTavern.getContext();
-
   const settingsHtml = await $.get(`${extensionFolderPath}/example.html`);
   $("#extensions_settings").append(settingsHtml);
 
   const availableChats = $("#chat_memory_available_chats");
   const saveButton = $("#chat_memory_save_settings_button");
-
-  for(const c in context.characters) {
-    console.log(c);
-    availableChats.append(new Option(c.name, c.name));
-  }
 
   saveButton.on("click", () => {
     extensionSettings.selectedChats = availableChats.val();
@@ -36,8 +29,17 @@ jQuery(async () => {
     Object.assign(extension_settings[extensionName], defaultSettings);
   }
 
-  availableChats.val(extension_settings[extensionName].selectedChats);
+  const context = SillyTavern.getContext();
 
+  eventSource.on(event_types.CHARACTER_PAGE_LOADED, () => {
+    availableChats.empty();
+
+    for(const c in context.characters) {
+      availableChats.append(new Option(c.name, c.name));
+    }
+
+    availableChats.val(extension_settings[extensionName].selectedChats);
+  })
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
     const message = context.chat[messageIndex].mes;
