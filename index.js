@@ -37,6 +37,7 @@ jQuery(async () => {
   });
 
   eventSource.on(event_types.MESSAGE_SENT, (messageIndex) => {
+    print(context)
     const message = context.chat[messageIndex].mes;
     context.chat[messageIndex].mes = context.chat[messageIndex].mes + "123123123123"
   });
