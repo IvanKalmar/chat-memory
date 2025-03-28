@@ -79,10 +79,7 @@ jQuery(async () => {
     let userFind = false;
     const selectedChats = new Set(extensionSettings.selectedChats);
     for(const user of new Set(context.chat.map(msg => msg.name))) {
-      console.log(user);
-      console.log(user in selectedChats);
-
-      if(user in selectedChats) {
+      if(selectedChats.has(user)) {
         userFind = true;
         break;
       }
@@ -100,10 +97,7 @@ jQuery(async () => {
     let userFind = false;
     const selectedChats = new Set(extensionSettings.selectedChats);
     for(const user of new Set(context.chat.map(msg => msg.name))) {
-      console.log(user);
-      console.log(user in selectedChats);
-
-      if(user in selectedChats) {
+      if(selectedChats.has(user)) {
         userFind = true;
         break;
       }
