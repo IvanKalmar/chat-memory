@@ -10,28 +10,20 @@ const defaultSettings = {};
 
 
 jQuery(async () => {
-  $("body").append(
+  $("body").prepend(
       await $.get(`${extensionFolderPath}/panel.html`)
   );
 
   const chatMemoryPanel = $("#chat-memory-panel");
   chatMemoryPanel.fadeOut();
 
-  const appendButton = () => {
-    const openMemoryButton = $(`<a id="option_chat_memory" class="interactable" tabindex="0">
+  const openMemoryButton = $(`<a id="option_chat_memory" class="interactable" tabindex="0">
 <i class="fa-lg fa-solid fa-book"></i><span data-i18n="Close chat">Chat memory</span></a>`);
 
-    $("#options .options-content").prepend(openMemoryButton);
+  $("#options .options-content").prepend(openMemoryButton);
 
-    $("#option_chat_memory").on("click", () => {
-      chatMemoryPanel.toggleFade();
-    });
-  }
-
-  appendButton();
-
-  eventSource.on(event_types.CHAT_CHANGED, (messageIndex) => {
-    appendButton();
+  $("#option_chat_memory").on("click", () => {
+    chatMemoryPanel.fadeIn();
   });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
