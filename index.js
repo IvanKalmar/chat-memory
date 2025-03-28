@@ -22,12 +22,16 @@ jQuery(async () => {
   const saveButton = $("#chat_memory_save_settings_button");
 
   const updateChats = () => {
+    console.log(extension_settings[extensionName].selectedChats);
+
+    enabledChats.empty();
+
     for(const chat of extension_settings[extensionName].selectedChats) {
-      enabledChats.append(`<p>${chat}</p>`)
+      enabledChats.append(`<pre>${chat}</pre>`)
     }
 
     if(extension_settings[extensionName].selectedChats.length === 0) {
-      enabledChats.append(`<p>Empty</p>`)
+      enabledChats.append("<pre>Empty</pre>")
     }
   }
 
