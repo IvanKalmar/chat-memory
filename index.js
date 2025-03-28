@@ -36,6 +36,7 @@ jQuery(async () => {
 
   eventSource.on(event_types.CHAT_CHANGED, (messageIndex) => {
     console.log("!!!", context.chatId);
+    console.log("!!!", context);
   });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
