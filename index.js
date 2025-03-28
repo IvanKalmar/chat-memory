@@ -15,6 +15,8 @@ jQuery(async () => {
   );
 
   const chatMemoryPanel = $("#chat-memory-panel");
+  const chatMemoryPanelClose = $("#chat-memory-panel-close");
+
   chatMemoryPanel.fadeOut();
 
   const openMemoryButton = $(`<a id="option_chat_memory" class="interactable" tabindex="0">
@@ -25,6 +27,10 @@ jQuery(async () => {
   $("#option_chat_memory").on("click", () => {
     chatMemoryPanel.fadeIn();
   });
+
+  chatMemoryPanelClose.on("click", () => {
+    chatMemoryPanel.fadeOut();
+  })
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
     const message = context.chat[messageIndex].mes;
