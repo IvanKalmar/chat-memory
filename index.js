@@ -20,12 +20,12 @@ jQuery(async () => {
   await loadSettings();
 
 
-  eventSource.on(event_types.MESSAGE_RECEIVED, (message) => {
-      alert(message);
+  eventSource.on(event_types.MESSAGE_RECEIVED, (data) => {
+    console.log(data);
   });
 
-  eventSource.on(event_types.MESSAGE_SENT, (message) => {
-    alert(message);
+  eventSource.on(event_types.MESSAGE_SENT, (data) => {
+    console.log(data);
   });
 });
 
