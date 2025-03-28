@@ -43,6 +43,7 @@ jQuery(async () => {
   updateChats();
 
   const context = SillyTavern.getContext();
+  console.log(context);
 
   eventSource.on(event_types.CHARACTER_PAGE_LOADED, () => {
     availableChats.empty();
@@ -78,6 +79,9 @@ jQuery(async () => {
     let userFind = false;
     const selectedChats = new Set(extensionSettings.selectedChats);
     for(const user of new Set(context.chat.map(msg => msg.name))) {
+      console.log(user);
+      console.log(user in selectedChats);
+
       if(user in selectedChats) {
         userFind = true;
         break;
@@ -96,6 +100,9 @@ jQuery(async () => {
     let userFind = false;
     const selectedChats = new Set(extensionSettings.selectedChats);
     for(const user of new Set(context.chat.map(msg => msg.name))) {
+      console.log(user);
+      console.log(user in selectedChats);
+
       if(user in selectedChats) {
         userFind = true;
         break;
