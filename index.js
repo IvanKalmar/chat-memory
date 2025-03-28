@@ -12,24 +12,27 @@ const defaultSettings = {};
 jQuery(async () => {
   const context = SillyTavern.getContext();
 
-  const openMemoryButton = $(`<a id="option_close_chat" class="displayNone interactable" tabindex="0">
-<i class="fa-lg fa-solid fa-book"></i>
-<span data-i18n="Close chat">Chat memory</span></a>`);
-  $("div.options-content").prepend(openMemoryButton);
-
-  $("#movingDivs").append(
+  $("#movingDivs").prepend(
       await $.get(`${extensionFolderPath}/panel.html`)
   );
 
   const chatMemoryPanel = $("#chat-memory");
   const chatMemoryClose = $("#chat-memory-close");
 
-  openMemoryButton.on("click", () => {
-    chatMemoryPanel.fadeToggle();
-  });
+  eventSource.on(event_types.CHAT_CHANGED, (messageIndex) => {
+    const openMemoryButton = $(`<a id="option_close_chat" class="displayNone interactable" tabindex="0">
+<i class="fa-lg fa-solid fa-book"></i><span data-i18n="Close chat">Chat memory</span></a>`);
 
-  chatMemoryClose.on("click", () => {
-    chatMemoryPanel.fadeOut();
+    $("div.options-content").prepend(openMemoryButton);
+
+    openMemoryButton.on("click", () => {
+      chatMemoryPanel.fadeToggle();
+    });
+
+    chatMemoryClose.on("click", () => {
+      chatMemoryPanel.fadeOut();
+    });
+
   });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
