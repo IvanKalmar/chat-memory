@@ -1,11 +1,11 @@
 {
-    "display_name": "Name Displayed in SillyTavern",
+    "display_name": "Chat memory",
     "loading_order": 9,
     "requires": [],
     "optional": [],
     "js": "index.js",
     "css": "style.css",
-    "author": "yourNameHere",
-    "version": "1.0.0",
-    "homePage": "yourUrlHere"
+    "author": "IvanKalmar",
+    "version": "0.0.1",
+    "homePage": "github.com/IvanKalmar/chat-memory"
 }
