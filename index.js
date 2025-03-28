@@ -22,7 +22,7 @@ jQuery(async () => {
 
   for(const c in context.characters) {
     console.log(c);
-    availableChats.append(`<option value="${c.name}">${c.name}</option>`);
+    availableChats.append(new Option(c.name, c.name));
   }
 
   saveButton.on("click", () => {
