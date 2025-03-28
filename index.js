@@ -35,7 +35,7 @@ jQuery(async () => {
     availableChats.empty();
 
     for(const c in context.characters) {
-      console.log(c.name);
+      console.log(c);
       availableChats.append(new Option(c.name, c.name));
     }
 
