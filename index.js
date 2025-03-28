@@ -19,20 +19,19 @@ jQuery(async () => {
   const chatMemoryPanel = $("#chat-memory");
   const chatMemoryClose = $("#chat-memory-close");
 
+  chatMemoryClose.on("click", () => {
+    chatMemoryPanel.css('opacity', '0');
+  });
+
   eventSource.on(event_types.CHAT_CHANGED, (messageIndex) => {
-    const openMemoryButton = $(`<a id="option_close_chat" class="displayNone interactable" tabindex="0">
+    const openMemoryButton = $(`<a id="option_chat_memory" class="interactable" tabindex="0">
 <i class="fa-lg fa-solid fa-book"></i><span data-i18n="Close chat">Chat memory</span></a>`);
 
     $("#options .options-content").prepend(openMemoryButton);
 
-    openMemoryButton.on("click", () => {
+    $("#option_chat_memory").on("click", () => {
       chatMemoryPanel.css('opacity', '1');
     });
-
-    chatMemoryClose.on("click", () => {
-      chatMemoryPanel..css('opacity', '0');
-    });
-
   });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
