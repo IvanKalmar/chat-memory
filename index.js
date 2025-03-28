@@ -6,10 +6,18 @@ import { saveSettingsDebounced, eventSource, event_types } from "../../../../scr
 const extensionName = "chat-memory";
 const extensionFolderPath = `scripts/extensions/third-party/${extensionName}`;
 const extensionSettings = extension_settings[extensionName];
-const defaultSettings = {};
 
 
 jQuery(async () => {
+  extension_settings[extensionName] = extension_settings[extensionName] || {};
+  if(Object.keys(extension_settings[extensionName]).length === 0) {
+    Object.assign(extension_settings[extensionName], {
+      chats: {}
+    });
+  }
+
+  saveSettingsDebounced();
+
   $("body").prepend(
       await $.get(`${extensionFolderPath}/panel.html`)
   );
@@ -35,14 +43,36 @@ jQuery(async () => {
   const context = SillyTavern.getContext();
 
   eventSource.on(event_types.CHAT_CHANGED, (messageIndex) => {
-    console.log("!!!", context.getCurrentChatId());
+    if(!extension_settings[extensionName].chats.hasOwnProperty(context.getCurrentChatId())) {
+      extension_settings[extensionName].chats[context.getCurrentChatId()] = {
+        currentContext: {
+          test1: 1,
+          test2: "asdad"
+        },
+        receive: "",
+        sent: ""
+      }
+    }
+
+    saveSettingsDebounced();
   });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
-    context.chat[messageIndex].mes = context.chat[messageIndex].mes + "123123123123"
+    const comments = [...context.chat[messageIndex].mes.matchAll(/<!--(.*?)-->)/g].map((comment) => {
+      return comment.slice(3, comment.length - 1 - 3).split("\n")
+    });
+
+    console.log(comments);
   });
 
   eventSource.on(event_types.MESSAGE_SENT, (messageIndex) => {
-    context.chat[messageIndex].mes = context.chat[messageIndex].mes + "123123123123"
+    const currentContext = extension_settings[extensionName]
+        .chats[context.getCurrentChatId()].currentContext;
+
+    const contextComment = "<!--\n" + Object.keys(currentContext).map((key) => {
+      return `${key}: ${currentContext[key].toString()}`;
+    }).join("\n") + "\n-->";
+
+    context.chat[messageIndex].mes = contextComment + context.chat[messageIndex].mes;
   });
 });
