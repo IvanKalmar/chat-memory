@@ -76,11 +76,13 @@ jQuery(async () => {
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
     const message = context.chat[messageIndex].mes;
+    console.log(context);
     console.log(message);
   });
 
   eventSource.on(event_types.MESSAGE_SENT, (messageIndex) => {
     const message = context.chat[messageIndex].mes;
+    console.log(context);
     console.log(message);
   });
 });
