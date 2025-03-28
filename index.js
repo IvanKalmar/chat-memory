@@ -66,6 +66,8 @@ jQuery(async () => {
   });
 
   eventSource.on(event_types.MESSAGE_SENT, (messageIndex) => {
+    console.log(extension_settings[extensionName]);
+
     const currentContext = extension_settings[extensionName]
         .chats[context.getCurrentChatId()].currentContext;
 
