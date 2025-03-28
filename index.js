@@ -32,6 +32,8 @@ jQuery(async () => {
     chatMemoryPanel.fadeOut();
   })
 
+  const context = SillyTavern.getContext();
+
   eventSource.on(event_types.CHAT_CHANGED, (messageIndex) => {
     print(context);
   });
