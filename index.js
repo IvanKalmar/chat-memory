@@ -19,12 +19,13 @@ jQuery(async () => {
 
   await loadSettings();
 
+  const context = SillyTavern.getContext();
 
-  eventSource.on(event_types.MESSAGE_RECEIVED, (data) => {
-    console.log(data);
+  eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
+    console.log(context.chat[messageIndex]);
   });
 
-  eventSource.on(event_types.MESSAGE_SENT, (data) => {
+  eventSource.on(event_types.MESSAGE_SENT, (messageIndex) => {
     console.log(data);
   });
 });
