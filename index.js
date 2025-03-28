@@ -10,19 +10,31 @@ const defaultSettings = {};
 
 
 jQuery(async () => {
+  const context = SillyTavern.getContext();
+
   const settingsHtml = await $.get(`${extensionFolderPath}/example.html`);
+
+  const charactersList = context.characters.map((character) => {
+    console.log(character);
+    return $("option").text(1);
+  })
 
   $("#extensions_settings").append(settingsHtml);
 
-  $("#my_button").on("click", onButtonClick);
-  $("#example_setting").on("input", onExampleInput);
+  $("#chat_memory_available_chats").append()
+
+  $("#chat_memory_save_settings_button").on("click", () => {
+    toastr.info(``, "Saved!");
+
+    saveSettingsDebounced();
+  });
 
   await loadSettings();
 
-  const context = SillyTavern.getContext();
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
-    console.log(context.chat[messageIndex]);
+    const message = context.chat[messageIndex].mes;
+    console.log();
   });
 
   eventSource.on(event_types.MESSAGE_SENT, (messageIndex) => {
@@ -43,12 +55,5 @@ async function loadSettings() {
 function onExampleInput(event) {
   const value = Boolean($(event.target).prop("checked"));
   extension_settings[extensionName].example_setting = value;
-  saveSettingsDebounced();
-}
 
-function onButtonClick() {
-  toastr.info(
-    `The checkbox is ${extension_settings[extensionName].example_setting ? "checked" : "not checked"}`,
-    "A popup appeared because you clicked the button!"
-  );
 }
