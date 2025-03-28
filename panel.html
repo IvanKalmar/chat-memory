@@ -1,15 +1,13 @@
-<div id="chat-memory-panel" class="drawer-content flexGap5"
+<div id="chat-memory-panel" class="flexGap5"
      style="position: absolute; top: 0; left: 0; width: calc(((100vw - var(--sheldWidth)) / 2) - 1px); max-height: 100vh; z-index: 9999999">
     <div class="panelControlBar flex-container alignItemsBaseline">
         <div id="floatingPromptheader" class="fa-fw fa-solid fa-grip drag-grabber"></div>
         <div id="chat-memory-panel-close" class="fa-fw fa-solid fa-circle-xmark floating_panel_close"></div>
     </div>
-    <div name="floatingPromptHolder" class="scrollY">
-        <div class="inline-drawer">
-            <div class="inline-drawer-content">
-                <b>Current context</b>
-                <textarea id="extension_floating_prompt" class="text_pole textarea_compact" rows="8"></textarea>
-            </div>
+    <div class="scrollY" style="display: flex">
+        <div style="width: 100%">
+            <b>Current context</b>
+            <textarea id="extension_floating_prompt" class="text_pole textarea_compact" rows="8"></textarea>
         </div>
     </div>
 </div>
