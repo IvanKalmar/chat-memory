@@ -32,17 +32,21 @@ jQuery(async () => {
     chatMemoryPanel.fadeOut();
   })
 
-  const context = SillyTavern.getContext();
-
   eventSource.on(event_types.CHAT_CHANGED, (messageIndex) => {
+    const context = SillyTavern.getContext();
+
     print(context);
   });
 
   eventSource.on(event_types.MESSAGE_RECEIVED, (messageIndex) => {
+    const context = SillyTavern.getContext();
+
     const message = context.chat[messageIndex].mes;
   });
 
   eventSource.on(event_types.MESSAGE_SENT, (messageIndex) => {
+    const context = SillyTavern.getContext();
+
     print(context)
     const message = context.chat[messageIndex].mes;
     context.chat[messageIndex].mes = context.chat[messageIndex].mes + "123123123123"
