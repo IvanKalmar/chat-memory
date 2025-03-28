@@ -12,7 +12,7 @@ const defaultSettings = {
 
 
 jQuery(async () => {
-  const settingsHtml = await $.get(`${extensionFolderPath}/example.html`);
+  const settingsHtml = await $.get(`${extensionFolderPath}/views/settings.html`);
   $("#extensions_settings").append(settingsHtml);
 
   const enabledChats = $("#chat_memory_enabled_chats");
@@ -90,7 +90,6 @@ jQuery(async () => {
     }
 
     const message = context.chat[messageIndex].mes;
-    console.log(message);
   });
 
   eventSource.on(event_types.MESSAGE_SENT, (messageIndex) => {
@@ -107,6 +106,6 @@ jQuery(async () => {
       return;
     }
     const message = context.chat[messageIndex].mes;
-    console.log(message);
+    context.chat[messageIndex].mes = context.chat[messageIndex].mes + "123123123123"
   });
 });
